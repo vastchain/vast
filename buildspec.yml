@@ -1,0 +1,33 @@
+version: 0.2
+
+env:
+  parameter-store:
+    BUILD_JOBS: "docker-build-jobs"
+
+phases:
+  pre_build:
+    commands:
+      - echo Cloning submodules...
+      - git submodule update --init
+  build:
+    commands:
+      - echo Generating build files...
+      - mkdir -p build && cd build
+      - export CCACHE_DIR="${CODEBUILD_SRC_DIR}/build/.ccache"
+      - export CCACHE_NODIRECT
+      - cmake ../ -G"Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/local/bin/cc -DCMAKE_CXX_COMPILER=/usr/local/bin/c++ -DSecp256k1_ROOT_DIR=/usr/local -DENABLE_BENCHMARKS=OFF -DENABLE_MONGODB_SUPPORT=ON -DENABLE_POSTGRES_SUPPORT=ON -DENABLE_BIND_LIBRARIES=ON
+      - echo Building...
+      - ninja all -j $BUILD_JOBS
+  post_build:
+    commands:
+      - echo Runing tests
+      - ctest --verbose
+artifacts:
+  files:
+    - 'build/bind/libvast/libvast.so'
+    - 'build/libraries/chain/libvast_chain_lite.so'
+    - 'build/libraries/fc/libfc_lite.so'
+  discard-paths: yes
+cache:
+  paths:
+    - 'build/.ccache/**/*'

@@ -1,0 +1,12 @@
+/**
+ *  @file
+ *  @copyright defined in vast/LICENSE.txt
+ */
+
+#include <vast/chain/genesis_state.hpp>
+
+namespace vast { namespace chain {
+
+const string genesis_state::vast_root_key = "${VAST_ROOT_KEY}";
+
+}}  // namespace vast::chain

@@ -1,0 +1,15 @@
+/** 
+ *  @file 
+ *  @copyright defined in vast/LICENSE.txt
+ *
+ * \warning This file is machine generated. DO NOT EDIT.  See config.hpp.in for changes.
+ */
+#pragma once
+
+namespace vast { namespace client { namespace config {
+
+constexpr char version_str[] = "${vastc_BUILD_VERSION}";
+constexpr char locale_path[] = "${LOCALEDIR}";
+constexpr char locale_domain[] = "${LOCALEDOMAIN}";
+
+}}}  // namespace vast::client::config

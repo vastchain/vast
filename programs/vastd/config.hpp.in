@@ -1,0 +1,13 @@
+/**
+ *  @file
+ *  @copyright defined in vast/LICENSE.txt
+ *
+ * \warning This file is machine generated. DO NOT EDIT.  See config.hpp.in for changes.
+ */
+#pragma once
+
+namespace vast { namespace vastd { namespace config {
+
+constexpr uint64_t version = 0x${vastd_BUILD_VERSION};
+
+}}}  // namespace vast::vastd::config
