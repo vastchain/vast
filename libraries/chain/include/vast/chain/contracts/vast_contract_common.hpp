@@ -301,14 +301,15 @@ get_db_prefix<token_def>(const token_def& v) {
             else {                                                          \
                 VALUEREF = MAKE_PROPERTY_STAKES(0, SYM);                    \
             }                                                               \
-            context.add_new_ft_holder(                                      \
-                ft_holder { .addr = ADDR, .sym_id = SYM.id() });            \
         }                                                                   \
         else {                                                              \
             extract_db_value(str, VALUEREF);                                \
             CHECK_SYM(VALUEREF, SYM);                                       \
         }                                                                   \
     }
+
+//context.add_new_ft_holder( 
+//    ft_holder { .addr = ADDR, .sym_id = SYM.id() }); 
 
 #define READ_DB_ASSET_NO_THROW_NO_NEW(ADDR, SYM, VALUEREF)                  \
     {                                                                       \

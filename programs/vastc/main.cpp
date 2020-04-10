@@ -1514,7 +1514,7 @@ struct set_producer_subcommands {
     string  producer;
     string  confkey;
     int64_t confvalue;
-    bool    postgres;
+    bool    postgres = false;
     string  prodsjson;
 
     vector<string> prodkeys;
@@ -1672,7 +1672,7 @@ struct set_psvbonus_subcommands {
         spcmd->add_option("rate", rate, localized("Rate of fees according to the amount of transaction"))->required();
         spcmd->add_option("base_charge", base_charge, localized("The optional addition fees outside the rate for every transaction"))->required();
         spcmd->add_option("dist_threshold", dist_threshold, localized("Only the profit collected is large than this value, can the managers start one round of distribution"))->required();
-        spcmd->add_option("--rules", rules, localized("Multiple levels of distribution rules are supported on everiToken"))->required();
+        spcmd->add_option("--rules", rules, localized("Multiple levels of distribution rules are supported on VastChain"))->required();
         spcmd->add_option("--methods", methods, localized("within_amount and outside_amount are the possible values for each action"))->required();
         spcmd->add_option("--charge_threshold", charge_threshold, localized("The maximum of the total fees"));
         spcmd->add_option("--minimum_charge", minimum_charge, localized("The minimum of the total fees"));
@@ -2214,7 +2214,7 @@ main(int argc, char** argv) {
     context = vast::client::http::create_http_context();
     wallet_url = default_wallet_url;
 
-    VASTApp app{"Command Line Interface to everiToken Client"};
+    VASTApp app{"Command Line Interface to VastChain Client"};
     app.require_subcommand();
 
     app.add_option("-u,--url", url, localized("the http/https/unix-socket URL where vastd is running"))->capture_default_str();

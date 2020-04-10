@@ -55,7 +55,7 @@ address::to_string() const {
     }
     case generated_t: {
         auto str = std::string();
-        str.reserve(53);
+        str.reserve(54);
 
         str.append("VAST0");
 
@@ -66,9 +66,9 @@ address::to_string() const {
         gen.checksum = gen.calculate_checksum();
 
         auto hash = fc::to_base58((char*)&gen, sizeof(gen));
-        VAST_ASSERT(hash.size() <= 53 - 4, address_type_exception, "Invalid generated values for address");
+        VAST_ASSERT(hash.size() <= 54 - 4, address_type_exception, "Invalid generated values for address");
 
-        str.append(53 - 4 - hash.size(), '0');
+        str.append(54 - 4 - hash.size(), '0');
         str.append(std::move(hash));
 
         return str;
@@ -82,11 +82,11 @@ address::to_string() const {
 address
 address::from_string(const std::string& str) {
     using namespace internal;
-    VAST_ASSERT(str.size() == 53, address_type_exception, "Address is not valid");
+    VAST_ASSERT(str.size() == 54, address_type_exception, "Address is not valid");
 
     address addr;
     // fast path
-    if(str[3] != '0') {
+    if(str[4] != '0') {
         return address((public_key_type)str);
     }
 
@@ -95,7 +95,7 @@ address::from_string(const std::string& str) {
     }
 
     auto gen = gen_wrapper();
-    auto hash = str.substr(str.find_first_not_of('0', 4));
+    auto hash = str.substr(str.find_first_not_of('0', 5));
     fc::from_base58(hash, (char*)&gen, sizeof(gen));
 
     VAST_ASSERT(gen.checksum == gen.calculate_checksum(), address_type_exception, "Checksum doesn't match");

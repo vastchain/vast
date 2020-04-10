@@ -173,16 +173,19 @@ trafficgen_plugin_impl::pre_ft_generate(const block_id_type& id) {
     auto tt   = transferft();
     tt.from   = from_addr_;
     tt.number = asset(10, vast_sym());
-    tt.memo   = "FROM THE NEW WORLD";
+    // tt.memo   = "FROM THE NEW WORLD";
 
     auto ttact = action(N128(.fungible), N128(1), tt);
+    auto priv = private_key_type::generate();
+    auto pub  = priv.get_public_key();
+    auto nonce = 0;
 
+    tt.to = pub;
     auto now = fc::time_point::now();
     for(auto i = 0u; i < total_num_; i++) {
-        auto priv = private_key_type::generate();
-        auto pub  = priv.get_public_key();
-
-        tt.to = pub;
+        // auto priv = private_key_type::generate();
+        // auto pub  = priv.get_public_key();
+        tt.memo = std::to_string(nonce++);
         ttact.set_data(tt);
 
         auto trx = signed_transaction();

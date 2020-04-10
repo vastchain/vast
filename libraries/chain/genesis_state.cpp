@@ -18,7 +18,7 @@ get_vast_org() {
 #ifndef MAINNET_BUILD
     const char* def = R"(
     {
-        "name": ".everiToken",
+        "name": ".VastChain",
         "key": "VAST00000000000000000000000000000000000000000000000000",
         "root": {
             "threshold": 1,
@@ -32,7 +32,7 @@ get_vast_org() {
 #else
     const char* def = R"(
     {
-        "name": ".everiToken",
+        "name": ".VastChain",
         "key": "VAST00000000000000000000000000000000000000000000000000",
         "root": {
             "threshold": 19,
@@ -65,7 +65,7 @@ get_vast_sym(const genesis_state& genesis) {
     issue.name = N(issue);
     issue.threshold = 1;
     auto ref = authorizer_ref();
-    ref.set_group(N128(.everiToken));
+    ref.set_group(N128(.VastChain));
     issue.authorizers.emplace_back(authorizer_weight(ref, 1));
 
     auto manage = permission_def();

@@ -10,10 +10,10 @@ namespace vast { namespace chain { namespace contracts {
 
 void
 initialize_vast_org(token_database& tokendb, const genesis_state& genesis) {
-    // Add reserved everiToken foundation group
-    if(!tokendb.exists_token(token_type::group, std::nullopt, N128(.everiToken))) {
+    // Add reserved VastChain foundation group
+    if(!tokendb.exists_token(token_type::group, std::nullopt, N128(.VastChain))) {
         auto v = make_db_value(genesis.vast_org);
-        tokendb.put_token(token_type::group, action_op::add, std::nullopt, N128(.everiToken), v.as_string_view());
+        tokendb.put_token(token_type::group, action_op::add, std::nullopt, N128(.VastChain), v.as_string_view());
     }
 
     // Add reserved VAST & PVAST fungible tokens

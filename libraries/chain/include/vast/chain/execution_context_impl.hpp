@@ -288,9 +288,7 @@ using vast_execution_context = execution_context_impl<
                                   contracts::recvstkbonus,
                                   contracts::staketkns,
                                   contracts::unstaketkns,
-                                  contracts::toactivetkns,
-                                  contracts::newscript,
-                                  contracts::updscript
+                                  contracts::toactivetkns
                               >;
 
 }}  // namespace vast::chain
