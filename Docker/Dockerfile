@@ -5,7 +5,7 @@ ARG bjobs=$(nproc)
 ARG awskey
 ARG awssecret
 
-RUN git clone -b $branch https://github.com/everitoken/vast.git --recursive \
+RUN git clone -b $branch https://github.com/vastchain/vast.git --recursive \
     && cd vast && echo "$branch:$(git rev-parse HEAD)" > /etc/vast-version \
     && cmake -H. -B"/tmp/build" -G"Ninja" \
        -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/tmp/build \

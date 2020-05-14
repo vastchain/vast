@@ -1481,11 +1481,12 @@ producer_plugin_impl::produce_block() {
     block_state_ptr new_bs = chain.head_block_state();
     _producer_watermarks[new_bs->header.producer] = chain.head_block_num();
 
-    ilog("Produced block ${id}... #${n} @ ${t} signed by ${p} [trxs: ${count}, lib: ${lib}, confirmed: ${confs}]",
+    ilog("Produced block ${id}... #${n} @ ${t} signed by ${p} [TPS: ${tps}, trxs: ${count}, lib: ${lib}, confirmed: ${confs}]",
          ("p", new_bs->header.producer)
          ("id", fc::variant(new_bs->id).as_string().substr(0, 16))
          ("n", new_bs->block_num)
          ("t", new_bs->header.timestamp)
+         ("tps", new_bs->block->transactions.size() * 2)
          ("count", new_bs->block->transactions.size())
          ("lib", chain.last_irreversible_block_num())
          ("confs", new_bs->header.confirmed));

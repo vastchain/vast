@@ -148,8 +148,9 @@ main(int argc, char** argv) {
         google_breakpad::ExceptionHandler eh(descriptor, NULL, dump_callback, NULL, true, -1);
 #endif
 
+        ilog("VastChain by 宇链科技有限公司");
         ilog("vastd version ${ver}", ("ver", app().version_string()));
-        ilog("evd root is ${root}", ("root", root.string()));
+        ilog("vastd root is ${root}", ("root", root.string()));
         ilog("vastd using configuration file ${c}", ("c", app().full_config_file_path().string()));
         ilog("vastd data directory is ${d}", ("d", app().data_dir().string()));
 
