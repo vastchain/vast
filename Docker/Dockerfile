@@ -16,22 +16,6 @@ RUN git clone -b $branch https://github.com/vastchain/vast.git --recursive \
        -DVAST_ROOT_KEY=$rootkey
 RUN ninja -C /tmp/build -j $bjobs vastd vastwd vastc && ninja -C /tmp/build install
 
-RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
-    && echo 'APT::Install-Suggests 0;' >> /etc/apt/apt.conf.d/01norecommends \
-    && apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-click python3-boto3
-
-RUN mkdir /tmp/build/symbols
-
-ENV LC_ALL=C.UTF-8
-ENV LANG=C.UTF-8
-
-RUN python3 /vast/scripts/symbol_ops.py export -s /tmp/build/symbols /tmp/build/bin/vastd
-RUN python3 /vast/scripts/symbol_ops.py export -s /tmp/build/symbols /tmp/build/bin/vastc
-RUN python3 /vast/scripts/symbol_ops.py export -s /tmp/build/symbols /tmp/build/bin/vastwd
-
-RUN python3 /vast/scripts/symbol_ops.py upload -f /tmp/build/symbols -k $awskey -s $awssecret -r vast -b vast-symbols
-
 FROM debian:buster-slim
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive && apt-get install -y openssl libssl1.1 libllvm7 && rm -rf /var/lib/apt/lists/*
