@@ -166,6 +166,37 @@ trafficgen_plugin_impl::pre_ft_generate(const block_id_type& id) {
     using namespace vast::chain;
     using namespace vast::chain::contracts;
 
+    auto now = fc::time_point::now();
+
+#ifndef MAINNET_BUILD
+    if(from_addr_.to_string() == "VAST6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV") {  // special case for testing purpose
+        ilog("Issuing tokens...");
+
+        auto ift = issuefungible();
+        ift.address = from_addr_;
+        ift.number  = asset(11 * total_num_, vast_sym());
+        ift.memo    = "TPS Tests";
+
+        auto iftact = action(N128(.fungible), N128(1), ift);
+        auto ifttrx = signed_transaction();
+        ifttrx.set_reference_block(id);
+        ifttrx.actions.emplace_back(iftact);
+        ifttrx.expiration = now + fc::minutes(10);
+        ifttrx.payer = from_addr_;
+        ifttrx.max_charge = 10000;
+        ifttrx.sign(from_priv_, db_.get_chain_id());
+
+        auto iftptrx = std::make_shared<packed_transaction>(ifttrx);
+        app().get_method<chain::plugin_interface::incoming::methods::transaction_async>()(std::make_shared<transaction_metadata>(iftptrx), true, [](const auto& result) -> void {
+            if(result.template contains<fc::exception_ptr>()) {
+                wlog("Push init trx failed e: ${e}", ("e",*result.template get<fc::exception_ptr>()));
+            }
+        });
+
+        ilog("Issuing tokens... - Done");
+    }
+#endif
+
     ilog("Generating ft ptrxs...");
 
     packed_trxs_.reserve(total_num_);
@@ -181,7 +212,6 @@ trafficgen_plugin_impl::pre_ft_generate(const block_id_type& id) {
     auto nonce = 0;
 
     tt.to = pub;
-    auto now = fc::time_point::now();
     for(auto i = 0u; i < total_num_; i++) {
         // auto priv = private_key_type::generate();
         // auto pub  = priv.get_public_key();
