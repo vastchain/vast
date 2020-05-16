@@ -12,7 +12,7 @@ RUN git clone -b $branch https://github.com/vastchain/vast.git --recursive \
        -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ \
        -DCMAKE_AR=/usr/bin/gcc-ar -DCMAKE_RANLIB=/usr/bin/gcc-ranlib \
        -DSecp256k1_ROOT_DIR=/usr/local \
-       -DENABLE_POSTGRES_SUPPORT=ON -DENABLE_BREAKPAD_SUPPORT=ON -DENABLE_BUILD_LTO=OFF  \
+       -DENABLE_POSTGRES_SUPPORT=ON -DENABLE_BUILD_LTO=OFF  \
        -DVAST_ROOT_KEY=$rootkey
 RUN ninja -C /tmp/build -j $bjobs vastd vastwd vastc && ninja -C /tmp/build install
 
